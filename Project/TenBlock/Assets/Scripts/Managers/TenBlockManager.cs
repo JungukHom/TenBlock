@@ -20,7 +20,7 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
     public string GameVersion = "0.1";
 
     [Header("Public UI Variables")]
-    public bool isPopuped = true;
+    public bool isPopuped = false;
 
     [Header("Escape Popup")]
     public EscapePannel pnl_escape;
@@ -89,6 +89,7 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
     {
         Logger.Log("Joined room");
         SceneLoader.LoadScene(SceneName.Game);
+        PhotonNetwork.Instantiate(Player.Path, Vector3.zero, Quaternion.identity, 0);
     }
 
     public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)

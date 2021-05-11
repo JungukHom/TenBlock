@@ -59,10 +59,10 @@ public class LobbySceneController : MonoBehaviour
 
     private void InvalidateListView(int pageIndex)
     {
+        if (PhotonNetwork.countOfRooms == 0)
+            return;
+
         KeyBoardButton firstButton = null;
-
-        // do something (draw list)
-
         RoomInfo[] roomList = PhotonNetwork.GetRoomList();
         RoomElement _previousElement = null;
 
@@ -92,7 +92,6 @@ public class LobbySceneController : MonoBehaviour
                 _previousElement.btn_down = _roomElement;
                 _roomElement.btn_up = _previousElement;
             }
-
         }
 
         roomListPannel.SetDefaultSelectedButton(firstButton);

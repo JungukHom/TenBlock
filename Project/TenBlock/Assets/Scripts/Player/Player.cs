@@ -10,25 +10,27 @@ using UnityEngine.UI;
 // Project
 // Alias
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPunObservable
 {
+    public static readonly string Path = "GameObject/Player";
+
     private int currentX = 0;
-    private int currentZ = 0;
+    private int currentY = 0;
 
     private Transform _transform;
 
-    private void Awake()
-    {
-        InputHandler.OnESCKeyPressed += ToggleKeyBoardEvent;
-    }
-
     private void Start()
     {
-        Initialize();
+        if (GetComponent<PhotonView>().isMine)
+        {
+            Initialize();
+        }
     }
 
     private void Initialize()
     {
+        InputHandler.OnESCKeyPressed += ToggleKeyBoardEvent;
+
         CacheComponents();
         SetupPosition();
         AddListeners();
@@ -42,7 +44,7 @@ public class Player : MonoBehaviour
     private void SetupPosition()
     {
         currentX = _transform.position.x.Round();
-        currentZ = _transform.position.z.Round();
+        currentY = _transform.position.y.Round();
     }
 
     private void AddListeners()
@@ -70,8 +72,22 @@ public class Player : MonoBehaviour
 
     private void MoveGrid(MoveDirection direction)
     {
-        Vector3 _position = new Vector3(currentX, 0, currentZ) + Vector.DirectionToNormalizedVector(direction);
+        Vector3 _position = new Vector3(currentX, currentY, 0) + Vector.DirectionToNormalizedVector(direction);
         transform.position = _position;
         SetupPosition();
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.Serialize(ref currentX);
+            stream.Serialize(ref currentY);
+        }
+        else // stream.isReading
+        {
+            stream.Serialize(ref currentX);
+            stream.Serialize(ref currentY);
+        }
     }
 }

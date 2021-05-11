@@ -15,7 +15,7 @@ MonoBehaviour:
   AppID: 61871437-5abb-4d32-be72-4c770cbc2bd0
   VoiceAppID: 
   ChatAppID: 
-  HostType: 1
+  HostType: 4
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
@@ -29,18 +29,12 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - ColorRpc
   - DestroyRpc
-  - DoJump
-  - Flash
   - InstantiateRpc
-  - Marco
   - PickupItemInit
-  - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - TaggedPlayer
   DisableAutoOpenWizard: 1

@@ -63,8 +63,6 @@ public class InputHandler : MonoBehaviour
         bool state = TenBlockManager.Controller.SetPopupedState(!EscapePannel.isActived);
         OnESCKeyPressed?.Invoke(state);
     }
-
     private void RKeyDown() => OnRKeyPressed?.Invoke();
-
     private void CKeyDown() => OnCKeyPressed?.Invoke();
 }
