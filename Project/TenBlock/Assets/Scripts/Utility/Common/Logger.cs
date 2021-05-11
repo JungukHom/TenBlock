@@ -30,7 +30,7 @@ public class Logger
         SaveToFile(logContentMerged);
     }
 
-    // TODO : Set delete
+    // TODO : Implement ClearLog
 
     private static void SaveToFile(string content)
     {

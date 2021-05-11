@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-        InputHandler.OnESCKeyDown += ToggleKeyBoardEvent;
+        InputHandler.OnESCKeyPressed += ToggleKeyBoardEvent;
     }
 
     private void Start()
@@ -47,12 +47,12 @@ public class Player : MonoBehaviour
 
     private void AddListeners()
     {
-        ToggleKeyBoardEvent(TenBlockManager.Controller.isEscaped);
+        ToggleKeyBoardEvent(TenBlockManager.Controller.isPopuped);
     }
 
     private void ToggleKeyBoardEvent(bool state)
     {
-        if (TenBlockManager.Controller.isEscaped)
+        if (TenBlockManager.Controller.isPopuped)
         {
             InputHandler.OnLeftKeyPressed -= MoveGrid;
             InputHandler.OnRightKeyPressed -= MoveGrid;

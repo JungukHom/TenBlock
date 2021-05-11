@@ -431,7 +431,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
 
     private HashSet<byte> blockSendingGroups = new HashSet<byte>();
 
-    protected internal Dictionary<int, PhotonView> photonViewList = new Dictionary<int, PhotonView>(); //TODO: make private again
+    protected internal Dictionary<int, PhotonView> photonViewList = new Dictionary<int, PhotonView>();
 
     private readonly PhotonStream readStream = new PhotonStream(false, null);    // only used in OnSerializeRead()
     private readonly PhotonStream pStream = new PhotonStream(true, null);        // only used in OnSerializeWrite()
@@ -465,8 +465,6 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
     private string cachedServerAddress;
     private string cachedApplicationName;
     private ServerConnection cachedServerType;
-
-    // TODO: CAS must be implemented for OfflineMode
 
     // for asynchronous loading network synched loading.
     private AsyncOperation _AsyncLevelLoadingOperation;
@@ -2212,7 +2210,7 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
             case StatusCode.EncryptionFailedToEstablish:
                 Debug.LogError("Encryption wasn't established: " + statusCode + ". Going to authenticate anyways.");
                 AuthenticationValues authV = this.AuthValues ?? new AuthenticationValues() { UserId = this.PlayerName };
-                this.OpAuthenticate(this.AppId, this.AppVersion, authV, this.CloudRegion.ToString(), this.requestLobbyStatistics);     // TODO: check if there are alternatives
+                this.OpAuthenticate(this.AppId, this.AppVersion, authV, this.CloudRegion.ToString(), this.requestLobbyStatistics);
                 break;
 
             case StatusCode.Disconnect:
@@ -3178,7 +3176,6 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
         // first viewID is now also the gameobject's instantiateId
         int instantiateId = viewIDs[0];   // LIMITS PHOTONVIEWS&PLAYERS
 
-        //TODO: reduce hashtable key usage by using a parameter array for the various values
         Hashtable instantiateEvent = new Hashtable(); // This players info is sent via ActorID
         instantiateEvent[(byte)0] = prefabName;
 
@@ -3800,7 +3797,6 @@ internal class NetworkingPeer : LoadBalancingPeer, IPhotonPeerListener
     public void SetLevelPrefix(short prefix)
     {
         this.currentLevelPrefix = prefix;
-        // TODO: should we really change the prefix for existing PVs?! better keep it!
         //foreach (PhotonView view in this.photonViewList.Values)
         //{
         //    view.prefix = prefix;

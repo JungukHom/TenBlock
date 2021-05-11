@@ -16,6 +16,14 @@ public class KeyBoardUIPannel : MonoBehaviour
 
     private void Start()
     {
-        defaultSelectedButton.OnSelected();
+        if (defaultSelectedButton != null)
+        {
+            SetDefaultSelectedButton(defaultSelectedButton);
+        }
+    }
+
+    public void SetDefaultSelectedButton(KeyBoardButton keyboardButton)
+    {
+        keyboardButton.OnSelected();
     }
 }

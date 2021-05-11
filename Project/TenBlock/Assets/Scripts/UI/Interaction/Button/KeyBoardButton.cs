@@ -22,7 +22,7 @@ public class KeyBoardButton : MonoBehaviour
 
     [Header("Public Variables")]
     public bool isSelected = false;
-    public Action buttonCallback;
+    public Action onClick;
 
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class KeyBoardButton : MonoBehaviour
         InputHandler.OnRightKeyPressed += OnKeyBoardArrowPressed;
         InputHandler.OnUpKeyPressed += OnKeyBoardArrowPressed;
         InputHandler.OnDownKeyPressed += OnKeyBoardArrowPressed;
-        InputHandler.OnSpaceKeyDown += buttonCallback;
+        InputHandler.OnSpaceKeyDown += onClick;
         SetOutlineVisible(true);
     }
 
@@ -53,7 +53,7 @@ public class KeyBoardButton : MonoBehaviour
         InputHandler.OnRightKeyPressed -= OnKeyBoardArrowPressed;
         InputHandler.OnUpKeyPressed -= OnKeyBoardArrowPressed;
         InputHandler.OnDownKeyPressed -= OnKeyBoardArrowPressed;
-        InputHandler.OnSpaceKeyDown -= buttonCallback;
+        InputHandler.OnSpaceKeyDown -= onClick;
         SetOutlineVisible(false);
     }
 

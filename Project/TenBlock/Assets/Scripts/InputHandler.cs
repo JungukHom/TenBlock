@@ -18,7 +18,10 @@ public class InputHandler : MonoBehaviour
     public static event Action<MoveDirection> OnDownKeyPressed = null;
 
     public static event Action OnSpaceKeyDown = null;
-    public static event Action<bool> OnESCKeyDown = null;
+    public static event Action<bool> OnESCKeyPressed = null;
+
+    public static event Action OnRKeyPressed = null;
+    public static event Action OnCKeyPressed = null;
 
     private static Dictionary<KeyCode, Action> targetInputKey;
 
@@ -31,7 +34,9 @@ public class InputHandler : MonoBehaviour
             { KeyCode.RightArrow, RightKeyDown },
             { KeyCode.UpArrow, UpKeyDown },
             { KeyCode.DownArrow, DownKeyDown },
-            { KeyCode.Escape, ESCKeyDown }
+            { KeyCode.Escape, ESCKeyDown },
+            { KeyCode.R, RKeyDown },
+            { KeyCode.C, CKeyDown }
         };
     }
 
@@ -54,7 +59,12 @@ public class InputHandler : MonoBehaviour
     private void DownKeyDown() => OnDownKeyPressed?.Invoke(MoveDirection.Down);
     private void ESCKeyDown()
     {
-        bool state = TenBlockManager.Controller.ToggleEscapeState();
-        OnESCKeyDown?.Invoke(state);
+        //bool state = TenBlockManager.Controller.TogglePopupState();
+        bool state = TenBlockManager.Controller.SetPopupedState(!EscapePannel.isActived);
+        OnESCKeyPressed?.Invoke(state);
     }
+
+    private void RKeyDown() => OnRKeyPressed?.Invoke();
+
+    private void CKeyDown() => OnCKeyPressed?.Invoke();
 }
