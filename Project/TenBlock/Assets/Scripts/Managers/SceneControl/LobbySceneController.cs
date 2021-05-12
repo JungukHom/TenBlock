@@ -48,13 +48,22 @@ public class LobbySceneController : MonoBehaviour
 
     public void RefreshRoomList()
     {
+        LoadingPannel.Controller.SetActive(true);
+        LoadingPannel.Controller.SetMessage("Refreshing room list");
+
         pageIndex = 0;
         InvalidateListView(pageIndex);
     }
 
     public void CreateRandomRoom()
     {
-        TenBlockManager.Controller.CreateAndJoinRandomRoom();
+        LoadingPannel.Controller.SetActive(true);
+        LoadingPannel.Controller.SetMessage("Creating new room");
+        SceneLoader.LoadScene(SceneName.Room);
+        RoomSceneController.OnRoomSceneLoaded += () =>
+        {
+            TenBlockManager.Controller.CreateAndJoinRandomRoom();
+        };
     }
 
     private void InvalidateListView(int pageIndex)
@@ -64,7 +73,7 @@ public class LobbySceneController : MonoBehaviour
 
         KeyBoardButton firstButton = null;
         RoomInfo[] roomList = PhotonNetwork.GetRoomList();
-        RoomElement _previousElement = null;
+        RoomElementButton _previousElement = null;
 
         int startIndex = pageIndex * pageElementCount;
         int endIndex = 0;
@@ -76,7 +85,7 @@ public class LobbySceneController : MonoBehaviour
         for (int i = startIndex; i < endIndex; i++)
         {
             RoomInfo info = roomList[i];
-            RoomElement _roomElement = RoomElement.Create(info.Name, info.PlayerCount, info.MaxPlayers);
+            RoomElementButton _roomElement = RoomElementButton.Create(info.Name, info.PlayerCount, info.MaxPlayers);
             _roomElement.onClick = () =>
             {
                 ShowJoinRoomMessageBox(info.Name);
@@ -95,14 +104,20 @@ public class LobbySceneController : MonoBehaviour
         }
 
         roomListPannel.SetDefaultSelectedButton(firstButton);
+
+        LoadingPannel.Controller.SetActive(false);
     }
 
     private void ShowJoinRoomMessageBox(string roomName)
     {
         MessagePopup.Show("Notice", $"Join room [{roomName}]?", () =>
         {
-            DeleteListeners();
-            TenBlockManager.Controller.JoinRoom(roomName);
+            if (PhotonNetwork.insideLobby && !PhotonNetwork.inRoom)
+            {
+                DeleteListeners();
+                SceneLoader.LoadScene(SceneName.Room);
+                RoomSceneController.OnRoomSceneLoaded += () => { TenBlockManager.Controller.JoinRoom(roomName); };
+            }
         });
     }
 

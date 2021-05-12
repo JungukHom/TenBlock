@@ -12,9 +12,15 @@ using UnityEngine.UI;
 
 public class EscapePannel : MonoBehaviour
 {
+    public static EscapePannel Controller = null;
     public static bool isActived = false;
 
     public Transform pnl_escape;
+
+    private void Awake()
+    {
+        Controller = this;
+    }
 
     public void SetActive(bool active)
     {

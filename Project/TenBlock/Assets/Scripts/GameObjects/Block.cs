@@ -24,12 +24,36 @@ public class Block : MonoBehaviour
     public void Initialize()
     {
         number = UnityEngine.Random.Range(1, 9);
-        txt_number.text = number.ToString();
     }
 
     public void Initialize(int number)
     {
         this.number = number;
+    }
+
+    public void ShowText()
+    {
         txt_number.text = number.ToString();
+    }
+
+    public void Destroy()
+    {
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    public static int operator +(Block a, Block b)
+    {
+        return a.number + b.number;
+    }
+
+    public static int AddAll(Block[] blocks)
+    {
+        int result = 0;
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            result += blocks[i].number;
+        }
+
+        return result;
     }
 }

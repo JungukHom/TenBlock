@@ -12,7 +12,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour, IPunObservable
 {
-    public static readonly string Path = "GameObject/Player";
+    //public static readonly string Path = "GameObject/TenBlockPlayer";
+    public static readonly string Path = "GameObject/TenBlockPlayer";
 
     private int currentX = 0;
     private int currentY = 0;

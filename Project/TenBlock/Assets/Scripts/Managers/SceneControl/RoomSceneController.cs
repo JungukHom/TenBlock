@@ -10,13 +10,13 @@ using UnityEngine.UI;
 // Project
 // Alias
 
-public class GameSceneController : MonoBehaviour
+public class RoomSceneController : MonoBehaviour
 {
-    public static Action OnGameSceneLoaded = null;
+    public static Action OnRoomSceneLoaded = null;
 
     private void Awake()
     {
-        OnGameSceneLoaded?.Invoke();
-        OnGameSceneLoaded = null;
+        OnRoomSceneLoaded?.Invoke();
+        OnRoomSceneLoaded = null;
     }
 }

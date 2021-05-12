@@ -76,19 +76,22 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
     public void OnConnectedToMaster()
     {
         Logger.Log("Connected to master");
+        LoadingPannel.Controller.SetActive(false);
         PhotonNetwork.JoinLobby();
     }
 
     public void OnJoinedLobby()
     {
         Logger.Log("Joined lobby");
+        LoadingPannel.Controller.SetActive(false);
         SceneLoader.LoadScene(SceneName.Lobby);
     }
 
     public void OnJoinedRoom()
     {
         Logger.Log("Joined room");
-        SceneLoader.LoadScene(SceneName.Game);
+        LoadingPannel.Controller.SetActive(false);
+        //SceneLoader.LoadScene(SceneName.Game);
         PhotonNetwork.Instantiate(Player.Path, Vector3.zero, Quaternion.identity, 0);
     }
 

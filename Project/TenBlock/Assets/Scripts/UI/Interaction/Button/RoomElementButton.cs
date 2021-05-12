@@ -10,19 +10,24 @@ using UnityEngine.UI;
 // Project
 // Alias
 
-public class RoomElement : KeyBoardButton
+public class RoomElementButton : KeyBoardButton
 {
     private static readonly string Path = "UI/RoomElement";
 
     public Text txt_roomName;
     public Text txt_playerCount;
 
-    public static RoomElement Create(string roomName, int connectedPlayerCount, int maxPlayerCount)
+    public static RoomElementButton Create(string roomName, int connectedPlayerCount, int maxPlayerCount)
     {
         GameObject _prefab = Resources.Load(Path) as GameObject;
         GameObject _gameObject = Instantiate(_prefab);
-        RoomElement _element = _gameObject.GetComponent<RoomElement>();
+        RoomElementButton _element = _gameObject.GetComponent<RoomElementButton>();
         _element.InitializeWith(roomName, connectedPlayerCount, maxPlayerCount);
+        _element.onClick += () =>
+        {
+            LoadingPannel.Controller.SetActive(true);
+            LoadingPannel.Controller.SetMessage("Connecting room...");
+        };
 
         return _element;
     }

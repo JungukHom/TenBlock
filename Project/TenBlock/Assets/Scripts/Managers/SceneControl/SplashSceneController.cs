@@ -9,8 +9,6 @@ public class SplashSceneController : MonoBehaviour
     public NetworkConnection networkConnection;
     public Transform dontDestroyOnLoadTarget;
 
-    private bool connectionState = false;
-
     private void Start()
     {
         DisableCursor();
@@ -19,11 +17,14 @@ public class SplashSceneController : MonoBehaviour
 
     private void CheckConnection()
     {
+        LoadingPannel.Controller.SetActive(true);
+        LoadingPannel.Controller.SetMessage("Checking internet connection");
         networkConnection.Check((result) =>
         {
             if (result)
             {
                 Logger.Log("Network connection success. Try to connect photon master server.");
+                LoadingPannel.Controller.SetActive(false);
                 DontDestroyOnLoad(dontDestroyOnLoadTarget);
                 Connect();
             }
@@ -42,6 +43,8 @@ public class SplashSceneController : MonoBehaviour
 
     private bool Connect()
     {
+        LoadingPannel.Controller.SetActive(true);
+        LoadingPannel.Controller.SetMessage("Connecting to server");
         return TenBlockManager.Controller.ConnectUsingSettings();
     }
 
