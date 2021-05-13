@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // Project
 // Alias
 
-public class Player : MonoBehaviour, IPunObservable
+public class TenBlockPlayer : MonoBehaviour, IPunObservable
 {
     //public static readonly string Path = "GameObject/TenBlockPlayer";
     public static readonly string Path = "GameObject/TenBlockPlayer";

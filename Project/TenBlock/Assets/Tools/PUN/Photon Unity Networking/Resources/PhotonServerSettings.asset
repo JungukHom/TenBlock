@@ -37,4 +37,5 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - GotoGameScene
   DisableAutoOpenWizard: 1

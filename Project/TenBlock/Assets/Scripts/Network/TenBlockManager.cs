@@ -30,6 +30,11 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
         Controller = this;
     }
 
+    private void Start()
+    {
+        PhotonNetwork.sendRateOnSerialize = 1;
+    }
+
     #region PUN
     public bool ConnectUsingSettings()
     {
@@ -83,6 +88,7 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
     public void OnJoinedLobby()
     {
         Logger.Log("Joined lobby");
+        PhotonNetwork.player.NickName = UnityEngine.Random.Range(10000, 99999).ToString();
         LoadingPannel.Controller.SetActive(false);
         SceneLoader.LoadScene(SceneName.Lobby);
     }
@@ -92,7 +98,7 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
         Logger.Log("Joined room");
         LoadingPannel.Controller.SetActive(false);
         //SceneLoader.LoadScene(SceneName.Game);
-        PhotonNetwork.Instantiate(Player.Path, Vector3.zero, Quaternion.identity, 0);
+        GameObject _roomPlayer = PhotonNetwork.Instantiate(RoomPlayer.Path, Vector3.zero, Quaternion.identity, 0);
     }
 
     public void OnPhotonPlayerConnected(PhotonPlayer newPlayer)

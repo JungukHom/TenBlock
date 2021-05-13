@@ -60,6 +60,8 @@ public class MessagePopup : MonoBehaviour
     {
         btn_ok.OnDisSelected();
         btn_cancel.OnDisSelected();
+        btn_ok.onClick -= OnOkButtonClicked;
+        btn_cancel.onClick -= OnCancelButtonClicked;
     }
 
     private void OnOkButtonClicked()

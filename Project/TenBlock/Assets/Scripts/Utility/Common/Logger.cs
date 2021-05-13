@@ -34,10 +34,11 @@ public class Logger
 
     private static void SaveToFile(string content)
     {
-        using (StreamWriter writer = new StreamWriter(FilePath, true))
-        {
-            writer.WriteLine(logContentMerged);
-        }
+        // TODO
+        //using (StreamWriter writer = new StreamWriter(FilePath, true))
+        //{
+        //    writer.WriteLine(logContentMerged);
+        //}
     }
 
     private static string GetCallerName()
