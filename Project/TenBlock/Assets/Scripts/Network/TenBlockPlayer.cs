@@ -15,10 +15,34 @@ public class TenBlockPlayer : MonoBehaviour, IPunObservable
     //public static readonly string Path = "GameObject/TenBlockPlayer";
     public static readonly string Path = "GameObject/TenBlockPlayer";
 
-    private int currentX = 0;
-    private int currentY = 0;
+    public SpriteRenderer spriteRenderer;
 
-    private Transform _transform;
+    public int currentX = 0;
+    public int currentY = 0;
+
+    public Transform _transform;
+    public PhotonView photonView;
+
+    private bool shift = false;
+
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+
+        if (photonView.isMine)
+            GameSceneController.Controller.localPlayer = this;
+        else
+            GameSceneController.Controller.otherPlayer = this;
+
+        if (photonView.isMine)
+        {
+            if (PhotonNetwork.isMasterClient)
+                spriteRenderer.color = Utility.GetNormalizedColor(256, 64, 64);
+            else
+                spriteRenderer.color = Utility.GetNormalizedColor(64, 64, 256);
+        }
+
+    }
 
     private void Start()
     {
@@ -28,13 +52,42 @@ public class TenBlockPlayer : MonoBehaviour, IPunObservable
         }
     }
 
+    private void Update()
+    {
+        if (photonView.isMine)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                MoveGrid(MoveDirection.Left);
+            }
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                MoveGrid(MoveDirection.Right);
+            }
+            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                MoveGrid(MoveDirection.Up);
+            }
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                MoveGrid(MoveDirection.Down);
+            }
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
+                OnSpaceBarPressed();
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                shift = true;
+            else
+                shift = false;
+        }
+    }
+
     private void Initialize()
     {
-        InputHandler.OnESCKeyPressed += ToggleKeyBoardEvent;
-
         CacheComponents();
         SetupPosition();
-        AddListeners();
     }
 
     private void CacheComponents()
@@ -48,32 +101,28 @@ public class TenBlockPlayer : MonoBehaviour, IPunObservable
         currentY = _transform.position.y.Round();
     }
 
-    private void AddListeners()
-    {
-        ToggleKeyBoardEvent(TenBlockManager.Controller.isPopuped);
-    }
-
-    private void ToggleKeyBoardEvent(bool state)
-    {
-        if (TenBlockManager.Controller.isPopuped)
-        {
-            InputHandler.OnLeftKeyPressed -= MoveGrid;
-            InputHandler.OnRightKeyPressed -= MoveGrid;
-            InputHandler.OnUpKeyPressed -= MoveGrid;
-            InputHandler.OnDownKeyPressed -= MoveGrid;
-        }
-        else
-        {
-            InputHandler.OnLeftKeyPressed += MoveGrid;
-            InputHandler.OnRightKeyPressed += MoveGrid;
-            InputHandler.OnUpKeyPressed += MoveGrid;
-            InputHandler.OnDownKeyPressed += MoveGrid;
-        }
-    }
-
     private void MoveGrid(MoveDirection direction)
     {
-        Vector3 _position = new Vector3(currentX, currentY, 0) + Vector.DirectionToNormalizedVector(direction);
+        Vector3 _direction = Vector.DirectionToNormalizedVector(direction);
+        int x = (currentX + _direction.x).Round();
+        int y = (currentY + _direction.y).Round();
+
+        x = x.Clamp(0, 15);
+        y = y.Clamp(0, 10);
+
+        if (shift)
+        {
+            if (direction == MoveDirection.Left)
+                x = 0;
+            if (direction == MoveDirection.Right)
+                x = 15;
+            if (direction == MoveDirection.Up)
+                y = 10;
+            if (direction == MoveDirection.Down)
+                y = 0;
+        }
+
+        Vector3 _position = new Vector3(x, y, 0);
         transform.position = _position;
         SetupPosition();
     }
@@ -90,5 +139,28 @@ public class TenBlockPlayer : MonoBehaviour, IPunObservable
             stream.Serialize(ref currentX);
             stream.Serialize(ref currentY);
         }
+    }
+
+    public void OnSpaceBarPressed()
+    {
+        photonView.RPC("DeleteBlocks", PhotonTargets.All);
+    }
+
+    [PunRPC]
+    public void DeleteBlocks()
+    {
+        GameSceneController.Controller.DeleteBlock();
+    }
+
+    [PunRPC]
+    public void AddScore(int score)
+    {
+        GameSceneController.Controller.AddScore(score);
+    }
+
+    [PunRPC]
+    public void ExitRoom()
+    {
+        PhotonNetwork.LeaveRoom();
     }
 }

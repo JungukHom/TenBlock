@@ -32,7 +32,7 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
 
     private void Start()
     {
-        PhotonNetwork.sendRateOnSerialize = 1;
+        PhotonNetwork.sendRateOnSerialize = 20;
     }
 
     #region PUN
@@ -58,7 +58,12 @@ public class TenBlockManager : MonoBehaviour, IPunCallbacks
             new RoomOptions()
             {
                 IsVisible = true,
-                MaxPlayers = 2
+                MaxPlayers = 2,
+                CustomRoomProperties = new ExitGames.Client.Photon.Hashtable()
+                {
+                    { "RoomState", "Waiting" }
+                },
+                CustomRoomPropertiesForLobby = new string[] { "RoomState" }
             }, TypedLobby.Default);
     }
     #endregion

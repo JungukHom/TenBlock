@@ -1349,7 +1349,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b760f932af81745bb400cac64f9167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultSelectedButton: {fileID: 1116812997}
 --- !u!222 &1088620198
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1493,12 +1492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c0262e01a4c254b84c58805a5faea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btn_left: {fileID: 2047985286}
-  btn_right: {fileID: 0}
-  btn_up: {fileID: 0}
-  btn_down: {fileID: 0}
-  img_outline: {fileID: 1602094660}
-  isSelected: 0
 --- !u!1 &1139303890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2640,12 +2633,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c0262e01a4c254b84c58805a5faea7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btn_left: {fileID: 0}
-  btn_right: {fileID: 1116812997}
-  btn_up: {fileID: 0}
-  btn_down: {fileID: 0}
-  img_outline: {fileID: 458525055}
-  isSelected: 0
 --- !u!1 &2119511521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2689,6 +2676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7adbb6dcf3ce34a48a416ae0ae87fcae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  txt_room_player_number: {fileID: 1086768093}
   pnl_player_left: {fileID: 1797462699}
   txt_player_number_left: {fileID: 1912453664}
   txt_player_name_left: {fileID: 1267535941}

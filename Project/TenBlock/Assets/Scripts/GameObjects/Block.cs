@@ -10,24 +10,24 @@ using UnityEngine.UI;
 // Project
 // Alias
 
-public class Block : MonoBehaviour
+public class Block : MonoBehaviour, IPunObservable
 {
     public Text txt_number;
+    public int x = 0;
+    public int y = 0;
 
-    private int number = 0;
+    public int number = 0;
 
-    private void Start()
+    public void Initialize(int x, int y)
     {
-        Initialize();
-    }
-
-    public void Initialize()
-    {
+        this.x = x;
+        this.y = y;
         number = UnityEngine.Random.Range(1, 9);
     }
 
-    public void Initialize(int number)
+    public void Initialize(int x, int y, int number)
     {
+        Initialize(x, y);
         this.number = number;
     }
 
@@ -55,5 +55,18 @@ public class Block : MonoBehaviour
         }
 
         return result;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
+        {
+            stream.Serialize(ref number);
+        }
+        else
+        {
+            stream.Serialize(ref number);
+            txt_number.text = number.ToString();
+        }
     }
 }

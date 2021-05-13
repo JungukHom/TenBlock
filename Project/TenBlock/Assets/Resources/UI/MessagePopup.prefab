@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4501749430643857743}
   - component: {fileID: 4501749430643857730}
-  - component: {fileID: 4501749430643857731}
   - component: {fileID: 4501749430643857729}
   - component: {fileID: 4501749430643857728}
   m_Layer: 5
@@ -49,24 +48,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4501749430643857742}
   m_CullTransparentMesh: 1
---- !u!114 &4501749430643857731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4501749430643857742}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c0262e01a4c254b84c58805a5faea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btn_left: {fileID: 0}
-  btn_right: {fileID: 4501749432373964244}
-  btn_up: {fileID: 0}
-  btn_down: {fileID: 0}
-  img_outline: {fileID: 4501749432190301717}
-  isSelected: 0
 --- !u!114 &4501749430643857729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,7 +286,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4501749431467823197}
   - component: {fileID: 4501749431467823199}
-  - component: {fileID: 4501749431467823198}
   m_Layer: 5
   m_Name: pnl_content
   m_TagString: Untagged
@@ -345,19 +325,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4501749431467823196}
   m_CullTransparentMesh: 1
---- !u!114 &4501749431467823198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4501749431467823196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b760f932af81745bb400cac64f9167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultSelectedButton: {fileID: 4501749430643857731}
 --- !u!1 &4501749431545430434
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +338,6 @@ GameObject:
   - component: {fileID: 4501749431545430436}
   - component: {fileID: 4501749431545430435}
   - component: {fileID: -2140789711515096392}
-  - component: {fileID: 4057498055547284817}
   m_Layer: 5
   m_Name: MessagePopup
   m_TagString: Untagged
@@ -475,21 +441,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   txt_title: {fileID: 4501749432362668159}
   txt_content: {fileID: 4501749432291392213}
-  btn_ok: {fileID: 4501749432373964244}
-  btn_cancel: {fileID: 4501749430643857731}
---- !u!114 &4057498055547284817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4501749431545430434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77b760f932af81745bb400cac64f9167, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultSelectedButton: {fileID: 4501749430643857731}
+  btn_ok: {fileID: 4501749432373964241}
+  btn_cancel: {fileID: 4501749430643857728}
 --- !u!1 &4501749431561910870
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,7 +915,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4501749432373964240}
   - component: {fileID: 4501749432373964243}
-  - component: {fileID: 4501749432373964244}
   - component: {fileID: 4501749432373964242}
   - component: {fileID: 4501749432373964241}
   m_Layer: 5
@@ -1001,24 +953,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4501749432373964255}
   m_CullTransparentMesh: 1
---- !u!114 &4501749432373964244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4501749432373964255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c0262e01a4c254b84c58805a5faea7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btn_left: {fileID: 4501749430643857731}
-  btn_right: {fileID: 0}
-  btn_up: {fileID: 0}
-  btn_down: {fileID: 0}
-  img_outline: {fileID: 4501749432046405030}
-  isSelected: 0
 --- !u!114 &4501749432373964242
 MonoBehaviour:
   m_ObjectHideFlags: 0

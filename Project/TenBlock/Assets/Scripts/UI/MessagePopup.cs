@@ -30,8 +30,8 @@ public class MessagePopup : MonoBehaviour
     public Text txt_title;
     public Text txt_content;
 
-    public KeyBoardButton btn_ok;
-    public KeyBoardButton btn_cancel;
+    public Button btn_ok;
+    public Button btn_cancel;
 
     public Action OkClickCallback = null;
     public Action CancelClickCallback = null;
@@ -52,16 +52,14 @@ public class MessagePopup : MonoBehaviour
 
     private void AddListeners()
     {
-        btn_ok.onClick += OnOkButtonClicked;
-        btn_cancel.onClick += OnCancelButtonClicked;
+        btn_ok.onClick.AddListener(OnOkButtonClicked);
+        btn_cancel.onClick.AddListener(OnCancelButtonClicked);
     }
 
     private void DeleteListeners()
     {
-        btn_ok.OnDisSelected();
-        btn_cancel.OnDisSelected();
-        btn_ok.onClick -= OnOkButtonClicked;
-        btn_cancel.onClick -= OnCancelButtonClicked;
+        //btn_ok.onClick -= OnOkButtonClicked;
+        //btn_cancel.onClick -= OnCancelButtonClicked;
     }
 
     private void OnOkButtonClicked()

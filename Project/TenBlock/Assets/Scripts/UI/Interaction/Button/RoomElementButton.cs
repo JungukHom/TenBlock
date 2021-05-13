@@ -10,19 +10,26 @@ using UnityEngine.UI;
 // Project
 // Alias
 
-public class RoomElementButton : KeyBoardButton
+public class RoomElementButton : MonoBehaviour
 {
     private static readonly string Path = "UI/RoomElement";
 
     public Text txt_roomName;
+    public Text txt_roomState;
     public Text txt_playerCount;
+    public Action onClick;
 
-    public static RoomElementButton Create(string roomName, int connectedPlayerCount, int maxPlayerCount)
+    private void Start()
+    {
+        GetComponent<Button>().onClick?.AddListener(() => { onClick?.Invoke(); });
+    }
+
+    public static RoomElementButton Create(string roomName, string roomState, int connectedPlayerCount, int maxPlayerCount)
     {
         GameObject _prefab = Resources.Load(Path) as GameObject;
         GameObject _gameObject = Instantiate(_prefab);
         RoomElementButton _element = _gameObject.GetComponent<RoomElementButton>();
-        _element.InitializeWith(roomName, connectedPlayerCount, maxPlayerCount);
+        _element.InitializeWith(roomName, roomState, connectedPlayerCount, maxPlayerCount);
         _element.onClick += () =>
         {
             LoadingPannel.Controller.SetActive(true);
@@ -32,9 +39,10 @@ public class RoomElementButton : KeyBoardButton
         return _element;
     }
 
-    public void InitializeWith(string roomName, int connectedPlayerCount, int maxPlayerCount)
+    public void InitializeWith(string roomName, string roomState, int connectedPlayerCount, int maxPlayerCount)
     {
         txt_roomName.text = roomName;
+        txt_roomState.text = roomState;
         txt_playerCount.text = $"{connectedPlayerCount} / {maxPlayerCount}";
     }
 

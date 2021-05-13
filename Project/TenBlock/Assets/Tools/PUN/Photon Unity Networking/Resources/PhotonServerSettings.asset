@@ -38,4 +38,9 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - GotoGameScene
+  - OnSpaceBarPressed
+  - DeleteBlocks
+  - InvalidateScoreText
+  - AddScore
+  - ExitRoom
   DisableAutoOpenWizard: 1

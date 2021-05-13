@@ -15,35 +15,22 @@ public class LobbySceneController : MonoBehaviour
     [Header("Public variables")]
     public int pageIndex = 0;
 
-    [Header("Public Components")]
-    public KeyBoardUIPannel roomListPannel;
-
     [Header("Public GameObjects")]
     public Transform parent;
+
+    [Header("Buttons")]
+    public Button btn_create;
+    public Button btn_refresh;
 
     // private variables
     private int pageElementCount = 8;
 
     private void Awake()
     {
-        AddListeners();
         RefreshRoomList();
-    }
 
-    private void AddListeners()
-    {
-        InputHandler.OnRKeyPressed += RefreshRoomList;
-        InputHandler.OnCKeyPressed += CreateRandomRoom;
-        InputHandler.OnLeftKeyPressed += PageDown;
-        InputHandler.OnRightKeyPressed += PageUp;
-    }
-
-    private void DeleteListeners()
-    {
-        InputHandler.OnRKeyPressed -= RefreshRoomList;
-        InputHandler.OnCKeyPressed -= CreateRandomRoom;
-        InputHandler.OnLeftKeyPressed -= PageDown;
-        InputHandler.OnRightKeyPressed -= PageUp;
+        btn_create.onClick.AddListener(CreateRandomRoom);
+        btn_refresh.onClick.AddListener(RefreshRoomList);
     }
 
     public void RefreshRoomList()
@@ -68,15 +55,13 @@ public class LobbySceneController : MonoBehaviour
 
     private void InvalidateListView(int pageIndex)
     {
-        for (int i = parent.childCount; i >= 0; i--)
+        for (int i = parent.childCount - 1; i >= 0; i--)
             Destroy(parent.GetChild(i).gameObject);
 
         if (PhotonNetwork.countOfRooms == 0)
             return;
 
-        KeyBoardButton firstButton = null;
         RoomInfo[] roomList = PhotonNetwork.GetRoomList();
-        RoomElementButton _previousElement = null;
 
         int startIndex = pageIndex * pageElementCount;
         int endIndex = 0;
@@ -88,25 +73,14 @@ public class LobbySceneController : MonoBehaviour
         for (int i = startIndex; i < endIndex; i++)
         {
             RoomInfo info = roomList[i];
-            RoomElementButton _roomElement = RoomElementButton.Create(info.Name, info.PlayerCount, info.MaxPlayers);
+            string roomState = info.CustomProperties["RoomState"].ToString();
+            RoomElementButton _roomElement = RoomElementButton.Create(info.Name, roomState, info.PlayerCount, info.MaxPlayers);
             _roomElement.onClick = () =>
             {
                 ShowJoinRoomMessageBox(info.Name);
             };
             _roomElement.SetParent(parent);
-            if (i == 0)
-            {
-                firstButton = _roomElement;
-                _previousElement = _roomElement;
-            }
-            else
-            {
-                _previousElement.btn_down = _roomElement;
-                _roomElement.btn_up = _previousElement;
-            }
         }
-
-        roomListPannel.SetDefaultSelectedButton(firstButton);
 
         LoadingPannel.Controller.SetActive(false);
     }
@@ -117,22 +91,9 @@ public class LobbySceneController : MonoBehaviour
         {
             if (PhotonNetwork.insideLobby && !PhotonNetwork.inRoom)
             {
-                DeleteListeners();
                 SceneLoader.LoadScene(SceneName.Room);
                 RoomSceneController.OnRoomSceneLoaded += () => { TenBlockManager.Controller.JoinRoom(roomName); };
             }
         });
-    }
-
-    private void PageDown(MoveDirection direction)
-    {
-        pageIndex--;
-        pageIndex = pageIndex.Clamp(0, PhotonNetwork.countOfRooms / 8 + 1);
-    }
-
-    private void PageUp(MoveDirection direction)
-    {
-        pageIndex++;
-        pageIndex = pageIndex.Clamp(0, PhotonNetwork.countOfRooms / 8 + 1);
     }
 }

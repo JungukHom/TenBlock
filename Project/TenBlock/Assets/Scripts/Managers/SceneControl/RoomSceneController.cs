@@ -14,6 +14,9 @@ public class RoomSceneController : Photon.MonoBehaviour
 {
     public static Action OnRoomSceneLoaded = null;
 
+    [Header("Room info")]
+    public Text txt_room_player_number;
+
     [Header("Player Left")]
     public GameObject pnl_player_left;
     public Text txt_player_number_left;
@@ -32,6 +35,7 @@ public class RoomSceneController : Photon.MonoBehaviour
 
     [Header("PhotonNetwork")]
     public RoomPlayer roomPlayer;
+    public RoomPlayer otherRoomPlayer;
     public PhotonView roomPlayerView;
 
     // used only i am masterclient
@@ -48,10 +52,57 @@ public class RoomSceneController : Photon.MonoBehaviour
 
     private void Update()
     {
-        if (PhotonNetwork.inRoom)
+        if (!roomPlayer || !roomPlayerView)
+            return;
+
+        if (PhotonNetwork.inRoom && roomPlayer != null)
         {
-            isOtherPlayerReady = PhotonNetwork.room.PlayerCount >= 2 && txt_player_number_right.text == "Ready";
+            txt_room_player_number.text = $"{PhotonNetwork.room.PlayerCount} / {PhotonNetwork.room.MaxPlayers}";
+
+            isOtherPlayerReady = GetIsOtherPlayerReady();
+
+            if (PhotonNetwork.isMasterClient)
+            {
+                if (PhotonNetwork.room.PlayerCount == 1)
+                {
+                    txt_player_ready_left.text = (roomPlayer.isReady ? "Ready" : "Not Ready");
+                    txt_player_name_left.text = roomPlayer.playerName;
+                }
+                else if (PhotonNetwork.room.PlayerCount == 2)
+                {
+                    txt_player_ready_left.text = (roomPlayer.isReady ? "Ready" : "Not Ready");
+                    txt_player_name_left.text = roomPlayer.playerName;
+
+                    if (otherRoomPlayer)
+                    {
+                        txt_player_ready_right.text = (otherRoomPlayer.isReady ? "Ready" : "Not Ready");
+                        txt_player_name_right.text = otherRoomPlayer.playerName;
+                    }
+                }
+            }
+            else
+            {
+                if (PhotonNetwork.room.PlayerCount == 2)
+                {
+                    if (otherRoomPlayer)
+                    {
+                        txt_player_ready_left.text = (otherRoomPlayer.isReady ? "Ready" : "Not Ready");
+                        txt_player_name_left.text = otherRoomPlayer.playerName;
+                    }
+
+                    txt_player_ready_right.text = (roomPlayer.isReady ? "Ready" : "Not Ready");
+                    txt_player_name_right.text = roomPlayer.playerName;
+                }
+            }
         }
+    }
+
+    private bool GetIsOtherPlayerReady()
+    {
+        if (PhotonNetwork.room.PlayerCount == 2 && otherRoomPlayer != null)
+            return otherRoomPlayer.isReady;
+        else
+            return false;
     }
 
     private void AddListeners()
@@ -72,25 +123,6 @@ public class RoomSceneController : Photon.MonoBehaviour
         }
     }
 
-    public void SetPlayerUI(bool isLeft, bool isReady, string playerName)
-    {
-        pnl_player_left.SetActive(false);
-        pnl_player_right.SetActive(false);
-
-        if (isLeft)
-        {
-            pnl_player_left.SetActive(true);
-            txt_player_ready_left.text = (isReady ? "Ready" : "Not Ready");
-            txt_player_name_left.text = playerName;
-        }
-        else
-        {
-            pnl_player_right.SetActive(true);
-            txt_player_ready_right.text = (isReady ? "Ready" : "Not Ready");
-            txt_player_name_right.text = playerName;
-        }
-    }
-
     private void OnExitButtonPressed()
     {
         LoadingPannel.Controller.SetActive(true);
@@ -106,7 +138,14 @@ public class RoomSceneController : Photon.MonoBehaviour
             {
                 roomPlayerView.RPC("GotoGameScene", PhotonTargets.All);
             }
+            else
+            {
+                MessagePopup.Show("Notice", "Other player is not ready");
+            }
         }
-        roomPlayer.ToggleReady();
+        else
+        {
+            roomPlayer.ToggleReady();
+        }
     }
 }

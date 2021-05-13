@@ -11,7 +11,7 @@ public class SplashSceneController : MonoBehaviour
 
     private void Start()
     {
-        DisableCursor();
+        //DisableCursor();
         CheckConnection();
     }
 
