@@ -68,6 +68,9 @@ public class LobbySceneController : MonoBehaviour
 
     private void InvalidateListView(int pageIndex)
     {
+        for (int i = parent.childCount; i >= 0; i--)
+            Destroy(parent.GetChild(i).gameObject);
+
         if (PhotonNetwork.countOfRooms == 0)
             return;
 
